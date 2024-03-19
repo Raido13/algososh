@@ -1,0 +1,79 @@
+.interfaceInput {
+  display: flex;
+  justify-content: center;
+}
+
+.interfaceInput_string {
+  width: 522px;
+}
+
+.interfaceInput_finobacci {
+  width: 567px;
+}
+
+.interfaceInput_arraySort {
+  width: 980px;
+}
+
+.interfaceInput_stack {
+  width: 829px;
+}
+
+.interfaceInput_queue {
+  width: 829px;
+}
+
+.interfaceInput_linkedList {
+  width: 952px;
+}
+
+.container_12pt {
+  display: flex;
+  column-gap: 12px;
+}
+
+.container_40pt {
+  display: flex;
+  column-gap: 40px;
+  align-items: center;
+}
+
+.container_52pt {
+  display: flex;
+  column-gap: 52px;
+}
+
+.container_80pt {
+  display: flex;
+  column-gap: 80px;
+}
+
+/* .container_string {
+  width: 522px;
+}
+
+.container_finobacci {
+  width: 567px;
+} */
+
+.container_arraySort {
+  width: 683px;
+}
+
+.container_stack {
+  width: 630px;
+}
+
+.container_queue {
+  width: 630px;
+}
+
+.container_linkedList {
+  width: 204px;
+}
+
+.interfaceHalf {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
