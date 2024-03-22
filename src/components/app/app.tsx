@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { FibonacciPage } from "../fibonacci-page/fibonacci-page";
 import { ListPage } from "../list-page/list-page";
@@ -11,6 +11,9 @@ import { StackPage } from "../stack-page/stack-page";
 import "./app.css";
 
 function App() {
+  const [active, setActive] = useState(false);
+  const [formState, setFormState] = useState({});
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -19,22 +22,22 @@ function App() {
             <MainPage />
           </Route>
           <Route path="/recursion">
-            <StringComponent />
+            <StringComponent setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/fibonacci">
-            <FibonacciPage />
+            <FibonacciPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/sorting">
-            <SortingPage />
+            <SortingPage setActive={setActive} active={active} />
           </Route>
           <Route path="/stack">
-            <StackPage />
+            <StackPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/queue">
-            <QueuePage />
+            <QueuePage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/list">
-            <ListPage />
+            <ListPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
         </Switch>
       </BrowserRouter>

@@ -1,0 +1,23 @@
+.interfaceOutput {
+  display: flex;
+  justify-content: center;
+}
+
+.interfaceOutput_string {
+  margin-top: 120px;
+  max-width: 1040px;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+  flex-wrap: wrap;
+}
+
+.interfaceOutput_fibonacci {
+  margin-top: 48px;
+  max-width: 944px;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 48px;
+  flex-wrap: wrap;
+}
