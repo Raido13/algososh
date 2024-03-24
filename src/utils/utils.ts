@@ -1,5 +1,6 @@
 import { Direction } from "../types/direction";
 import { ElementStates } from "../types/element-states";
+import { AnimationFrame } from "../types/types";
 
 export const reverse = (string: string): [string, ElementStates][][] => {
   if (!string) return [];
@@ -60,76 +61,82 @@ export const fibonacci = (number: number): number[][] => {
   return res
 }
 
-export const createInitialArray = (array: number[] = [], minLen = 3, maxLen = 17, min = 0, max = 101) => {
+export const createInitialArray = (array: number[] = [], minLen = 3, maxLen = 17, min = 0, max = 101): number[] => {
   const arrLength = Math.floor(Math.random() * (maxLen - minLen) + minLen)
   for (let i = 0; i <= arrLength; i++) {
     array.push(Math.floor(Math.random() * (max - min) + min))
   }
-  return array;
+  return array
 }
 
-export const createInitialAnimation = (array: number[]) => array.map(num => [num, ElementStates.Default]);
+export const createInitialAnimation = (array: number[]): AnimationFrame => array.map(num => [num, ElementStates.Default]);
 
-export const choiseSort = (array: number[], direction: Direction): Array<Array<Array<number | string>>> => {
-  let animationArray: Array<Array<Array<number | string>>> = [];
-  animationArray.push(array.map(num => [num, ElementStates.Default]));
-  let newAnimation;
+export const choiseSort = (array: number[], direction: Direction): AnimationFrame[] => {
+  const {length} = array;
+  let animationFrames: AnimationFrame[] = [];
+  let currentState: AnimationFrame = createInitialAnimation(array);
 
-  for (let i = 0; i < animationArray.length - 1; i++) {
+  for (let i = 0; i < length - 1; i++) {
     let maxIdx = i;
 
-    for (let k = i + 1; k < animationArray.length; k++) {
-      newAnimation = animationArray[animationArray.length - 1].map((it, idx) => idx === i || idx === k ? [it[0], ElementStates.Changing] : it);
-      animationArray.push(newAnimation);
+    for (let k = maxIdx + 1; k < length; k++) {
+      let comprassionFrame: AnimationFrame = currentState.map(([val, state], idx) => [val, idx === i || idx === k ? ElementStates.Changing : state]);
+      animationFrames.push(comprassionFrame);
 
-      if (direction === Direction.Ascending ? array[k] < array[maxIdx] : array[i] > array[maxIdx]) {
+      if (direction === Direction.Ascending ? array[k] < array[maxIdx] : array[k] > array[maxIdx]) {
         maxIdx = k;
       }
     }
 
-    [array[i], array[maxIdx]] = [array[maxIdx], array[i]];
+    if (maxIdx !== i) {
+      [array[i], array[maxIdx]] = [array[maxIdx], array[i]];
+      [currentState[i], currentState[maxIdx]] = [[array[i], ElementStates.Default], [array[maxIdx], ElementStates.Default]];
 
-    let modifiedAnimation = newAnimation && newAnimation.map((it, idx) => {
-      return idx === i
-          ? [array[i], ElementStates.Modified]
-          : idx === maxIdx 
-              ? [array[maxIdx], ElementStates.Default]
-              : it
-    });
-    
-    modifiedAnimation && animationArray.push(modifiedAnimation);
+      let postSwapFrame: AnimationFrame = currentState.map(([val, state], idx) => [val, idx === i ? ElementStates.Modified : state]);
+      animationFrames.push(postSwapFrame);
+    }
+    currentState[i] = [array[i], ElementStates.Modified];
   }
-  
-  let finalAnimation = array.map((num) => [num, ElementStates.Modified]);
-  animationArray.push(finalAnimation);
 
-  return animationArray;
-}
+  currentState[array.length - 1][1] = ElementStates.Modified;
+  animationFrames.push(currentState);
 
-export const bubbleSort = (array: number[], direction: Direction): Array<Array<Array<number | string>>> => {
-  let animationArray: Array<Array<Array<number | string>>> = [];
-  animationArray.push(array.map(num => [num, ElementStates.Default]));
-  let newAnimation;
-  let length = animationArray.length;
+  return animationFrames;
+};
 
-  for (let i = 0; i < length; i++) {
+export const bubbleSort = (array: number[], direction: Direction): AnimationFrame[] => {
+  const {length} = array;
+  let animationFrames: AnimationFrame[] = [];
+  let currentState: AnimationFrame = createInitialAnimation(array);
+  let sorted = false;
+
+  for (let i = 0; i < length - 1; i++) {
+    sorted = true
 
     for (let k = 0; k < length - i - 1; k++) {
-      newAnimation = animationArray[length - 1].map((it, idx) => idx === k || idx === k + 1 ? [it[0], ElementStates.Changing] : it);
-      animationArray.push(newAnimation);
+      let comparisonFrame: AnimationFrame = currentState.map(([val], idx) =>
+        idx === k || idx === k + 1 ? [val, ElementStates.Changing] : idx > length - i - 1 ? [val, ElementStates.Modified] : [val, ElementStates.Default]);
+      animationFrames.push(comparisonFrame)
 
       if (direction === Direction.Ascending ? array[k] > array[k + 1] : array[k] < array[k + 1]) {
+        sorted = false;
         [array[k], array[k + 1]] = [array[k + 1], array[k]];
-        newAnimation = newAnimation && newAnimation.map((it, idx) => idx === k ? [array[k], ElementStates.Modified] : idx === k + 1 ? [array[k + 1], ElementStates.Modified] : it);
-
-        animationArray.push(newAnimation);
+        [comparisonFrame[k], comparisonFrame[k + 1]] = [[array[k], ElementStates.Changing], [array[k + 1], ElementStates.Changing]]
+        animationFrames.push(comparisonFrame)
       }
-    }
-    
-    newAnimation = newAnimation && newAnimation.map((it, idx) => idx === length - i - 2 ? [array[0], ElementStates.Default] : idx === length - 1 ? [array[0], ElementStates.Modified] : it);
 
-    newAnimation && animationArray.push(newAnimation)
+      currentState[k] = [array[k], ElementStates.Default];
+      
+      if (k === length - i - 2) currentState[k + 1] = [array[k + 1], ElementStates.Modified]
+    }
+
+    if (sorted) break;
+
+    currentState[length - i - 1] = [array[length - i - 1], ElementStates.Modified];
   }
 
-  return animationArray
+  let finalFrame: AnimationFrame = array.map((num) => [num, ElementStates.Modified]);
+  animationFrames.push(finalFrame);
+
+  return animationFrames
 }

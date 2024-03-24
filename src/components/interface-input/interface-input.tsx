@@ -77,7 +77,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
                 </div>
               </div>
             </div>
-            <Button text="Новый массив" type="button" onClick={() => resetArray} />
+            <Button text="Новый массив" type="button" onClick={() => resetArray && resetArray()} />
           </form>
         </div>
       </div>
