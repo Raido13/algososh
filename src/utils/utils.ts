@@ -2,11 +2,11 @@ import { Direction } from "../types/direction";
 import { ElementStates } from "../types/element-states";
 import { AnimationFrame } from "../types/types";
 
-export const reverse = (string: string): [string, ElementStates][][] => {
+export const reverse = (string: string): AnimationFrame[] => {
   if (!string) return [];
 
   let array = string.split('');
-  let animation: [string, ElementStates][][] = [];
+  let animation: AnimationFrame[] = [];
   
   animation.push(array.map(letter => [letter, ElementStates.Default] as [string, ElementStates]));
   
@@ -16,7 +16,7 @@ export const reverse = (string: string): [string, ElementStates][][] => {
   while (start <= end) {
     let swapAnimation = animation[animation.length - 1].map((it, idx) => {
       if (idx === start || idx === end) {
-        return[it[0], ElementStates.Changing] as [string, ElementStates]
+        return [it[0], ElementStates.Changing] as [string, ElementStates]
       }
       return it
     });
@@ -27,7 +27,7 @@ export const reverse = (string: string): [string, ElementStates][][] => {
 
     let modifiedAnimation = swapAnimation.map((it, idx) => {
       if (idx === start || idx === end) {
-        return[array[idx], ElementStates.Modified] as [string, ElementStates]
+        return [array[idx], ElementStates.Modified] as [string, ElementStates]
       }
       return it
     });

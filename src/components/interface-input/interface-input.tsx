@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, useEffect } from "react";
+import { ChangeEvent, FC, FormEvent, MouseEvent, useEffect } from "react";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { RadioInput } from '../ui/radio-input/radio-input';
@@ -16,10 +16,13 @@ interface IInterfaceInputProps {
   sort?: {type: Sort, direction: Direction, array: number[]},
   changeRadio?: (newType: Sort) => void,
   changeDirection?: (newDirection: Direction) => void,
-  resetArray?: () => void
+  resetArray?: () => void,
+  addToStack?: () => void,
+  removeFromStack?: () => void,
+  clearStack?: () => void,
 }
 
-export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray}) => {
+export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray, addToStack, removeFromStack}) => {
   const fillForm = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFormState && setFormState(prevState => ({...prevState, [e.target.name]: e.target.value}))
@@ -88,10 +91,10 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
           <form className={styles.container_80pt} onSubmit={submitForm} onReset={resetForm}>
             <div className={`${styles.container_12pt} ${styles[`${`container_${type}`}`]}`}>
               <Input name={type} maxLength={4} onChange={fillForm} />
-              <Button text="Добавить" type="submit" />
-              <Button text="Удалить" type="submit" />
+              <Button text="Добавить" type="button" onClick={() => addToStack && addToStack()} />
+              <Button text="Удалить" type="button" onClick={() => removeFromStack && removeFromStack()} />
             </div>
-            <Button text="Очистить" type="reset" />
+            <Button text="Очистить" type="button" onClick={() => resetArray && resetArray()} />
           </form>
         </div>
       </div>

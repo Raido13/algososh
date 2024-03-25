@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { InterfaceInput } from "../interface-input/interface-input";
-import { TFormState, TSetActive, TSetFormState } from "../../types/types";
+import { AnimationFrame, TFormState, TSetActive, TSetFormState } from "../../types/types";
 import { reverse } from "../../utils/utils";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { InterfaceOutput } from "../interface-output/interface-output";
-import { ElementStates } from "../../types/element-states";
 
 export const StringComponent: React.FC<{setActive: TSetActive, active: boolean, setFormState: TSetFormState, formState: TFormState}> = ({setActive, active, setFormState, formState}) => {
-  const [reverseAnimation, setAnimation] = useState<[string, ElementStates][]>();
+  const [reverseAnimation, setAnimation] = useState<AnimationFrame>();
 
   useEffect(() => {
     if (active) {

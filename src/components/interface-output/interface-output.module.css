@@ -30,3 +30,11 @@
   align-items: end;
   column-gap: 10px;
 }
+
+.interfaceOutput_stack {
+  margin-top: 22px;
+  max-width: 656px;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+}

@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { InterfaceInput } from "../interface-input/interface-input";
-import { TSetActive } from "../../types/types";
+import { AnimationFrame, TSetActive } from "../../types/types";
 import { Sort } from "../../types/sort";
 import { Direction } from "../../types/direction";
 import { createInitialAnimation, createInitialArray } from "../../utils/utils";
 import { choiseSort } from "../../utils/utils";
 import { bubbleSort } from "../../utils/utils";
 import { DELAY_IN_MS} from "../../constants/delays";
-import { ElementStates } from "../../types/element-states";
 import { InterfaceOutput } from '../interface-output/interface-output';
 
 export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = ({setActive, active})  => {
   const [sort, setSort] = useState<{type: Sort, direction: Direction, array: number[]}>({ type: Sort.Choise, direction: Direction.Ascending, array: [] });
-  const [sortingAnimation, setAnimation] = useState<(number | ElementStates)[][]>([]);
+  const [sortingAnimation, setAnimation] = useState<AnimationFrame>([]);
 
   useEffect(() => {
     if(active) {
