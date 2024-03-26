@@ -32,7 +32,15 @@
 }
 
 .interfaceOutput_stack {
-  margin-top: 22px;
+  margin-top: 48px;
+  max-width: 656px;
+  display: flex;
+  justify-content: center;
+  column-gap: 16px;
+}
+
+.interfaceOutput_queue {
+  margin-top: 48px;
   max-width: 656px;
   display: flex;
   justify-content: center;

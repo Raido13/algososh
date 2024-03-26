@@ -12,16 +12,16 @@ export const StringComponent: React.FC<{setActive: TSetActive, active: boolean, 
   useEffect(() => {
     if (active) {
       const swapAnimations = reverse(formState['string']);
-      swapAnimations.forEach((it, i) => {
+      swapAnimations.forEach((frame, i) => {
         setTimeout(() => {
-          setAnimation(it)
+          setAnimation(frame)
           if(i === swapAnimations.length - 1) {
             setActive(false)
           }
         }, i * DELAY_IN_MS)
       })
     }
-  }, [formState, setActive, active])
+  }, [formState, setActive, active]);
 
   return (
     <SolutionLayout title="Строка">

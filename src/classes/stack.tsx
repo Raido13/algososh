@@ -15,17 +15,12 @@ export class Stack<T> implements IStack<T> {
   }
 
   pop = (): void => {
-    this.container.pop()
+    this.container.length !== 0 && this.container.pop()
   }
 
-  peak = (): T | null => {
-    if (!this.container.length) return null;
-    return this.container[this.container.length - 1]
-  }
+  peak = (): T | null => this.container.length !== 0 ? this.container[this.container.length - 1] : null
 
-  getSize = (): number => {
-    return this.container.length;
-  }
+  getSize = (): number => this.container.length
 
   getAll = (): T[] => {
     const arr = [];

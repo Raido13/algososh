@@ -9,10 +9,11 @@ import { SortingPage } from "../sorting-page/sorting-page";
 import { StackPage } from "../stack-page/stack-page";
 
 import "./app.css";
+import { TFormState } from "../../types/types";
 
 function App() {
   const [active, setActive] = useState(false);
-  const [formState, setFormState] = useState({});
+  const [formState, setFormState] = useState<TFormState>({'stack': '', 'fibonacci': '', 'string': '', 'queue': ''});
 
   return (
     <div className="app">

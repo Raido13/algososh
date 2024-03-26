@@ -10,10 +10,14 @@ interface IInterfaceOutputProps {
   reverseAnimation?: AnimationFrame,
   fibonacciAnimation?: number[],
   sortingAnimation?: AnimationFrame,
-  stackAnimation?: AnimationFrame
+  stackAnimation?: AnimationFrame,
+  queueAnimation?: AnimationFrame,
+  queueHead?: number,
+  isHead?: boolean,
+  queueTail?: number
 }
 
-export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimation, fibonacciAnimation, sortingAnimation, stackAnimation}) => {
+export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimation, fibonacciAnimation, sortingAnimation, stackAnimation, queueAnimation, queueHead, isHead, queueTail}) => {
   switch(type) {
     case 'string': return (
       <div className={styles.interfaceOutput}>
@@ -39,13 +43,17 @@ export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimati
     case 'stack': return (
       <div className={styles.interfaceOutput}>
         <div className={styles[`${`interfaceOutput_${type}`}`]}>
-          {stackAnimation?.length && stackAnimation.map((frame, idx) => <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={stackAnimation.length - 1 ? 'top' : ''} key={idx} />)}
+          {stackAnimation && stackAnimation.length !== null && stackAnimation.map((frame, idx) => <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={idx === stackAnimation.length - 1 ? 'top' : ''} key={idx} />)}
         </div>
       </div>
     );
-    // case 'queue': return (
-
-    // );
+    case 'queue': return (
+      <div className={styles.interfaceOutput}>
+        <div className={styles[`${`interfaceOutput_${type}`}`]}>
+          {queueAnimation && queueAnimation.length !== null && queueAnimation.map((frame, idx) => <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={idx === queueHead && isHead ? 'head' : ''} tail={idx === queueTail && frame[0] ? 'tail' : ''} key={idx} />)}
+        </div>
+      </div>
+    );
     // case 'linkedList': return (
 
     // );

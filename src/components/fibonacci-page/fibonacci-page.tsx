@@ -12,9 +12,9 @@ export const FibonacciPage: React.FC<{setActive: TSetActive, active: boolean, se
   useEffect(() => {
     if (active) {
       const finobacciAnimations = fibonacci(+formState['fibonacci']);
-      finobacciAnimations.forEach((it, i) => {
+      finobacciAnimations.forEach((frame, i) => {
         setTimeout(() => {
-          setAnimation(it)
+          setAnimation(frame)
           if(i === finobacciAnimations.length - 1) {
             setActive(false)
           }
