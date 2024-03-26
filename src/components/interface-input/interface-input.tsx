@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, FormEvent, MouseEvent, useEffect } from "react";
+import { ChangeEvent, FC, FormEvent, useEffect } from "react";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { RadioInput } from '../ui/radio-input/radio-input';
@@ -31,11 +31,6 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
   const submitForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setActive && setActive(true);
-  }
-
-  const resetForm = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setActive && setActive(false);
   }
 
   useEffect(() => {
@@ -88,7 +83,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'stack': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_80pt} onSubmit={submitForm} onReset={resetForm}>
+          <form className={styles.container_80pt} onSubmit={submitForm}>
             <div className={`${styles.container_12pt} ${styles[`${`container_${type}`}`]}`}>
               <Input name={type} maxLength={4} onChange={fillForm} />
               <Button text="Добавить" type="button" onClick={() => addToStack && addToStack()} />
@@ -102,7 +97,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'queue': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_80pt} onSubmit={submitForm} onReset={resetForm}>
+          <form className={styles.container_80pt} onSubmit={submitForm}>
             <div className={`${styles.container_12pt} ${styles[`${`container_${type}`}`]}`}>
               <Input name={type} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
               <Button text="Добавить" type="submit" />

@@ -12,9 +12,9 @@ export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFor
   const [stackAnimation, setAnimation] = useState<AnimationFrame>([]);
 
   const addToStack = () => {
-    console.log(formState);
+    console.log(formState)
     stack.push(formState['stack']);
-    setFormState({ [formState['stack']]: '' });
+    setFormState({...formState, 'stack': '' });
     setActive(true);
     stack.getSize() > 0 && setTimeout(() => setAnimation(stackFrame()), 0);
     stack.getSize() > 0 && setTimeout(() => setAnimation(stackFrame()), SHORT_DELAY_IN_MS)
