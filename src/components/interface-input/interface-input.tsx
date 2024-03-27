@@ -20,9 +20,15 @@ interface IInterfaceInputProps {
   addButton?: () => void,
   removeButton?: () => void,
   clearButton?: () => void,
+  addHeadButton?: () => void,
+  removeHeadButton?: () => void,
+  addTailButton?: () => void,
+  removeTailButton?: () => void,
+  addByIdxButton?: () => void,
+  removeByIdxButton?: () => void,
 }
 
-export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray, addButton, removeButton, clearButton}) => {
+export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray, addButton, removeButton, clearButton, addHeadButton, removeHeadButton, addTailButton, removeTailButton, addByIdxButton, removeByIdxButton}) => {
   const fillForm = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFormState && setFormState(prevState => ({...prevState, [e.target.name]: e.target.value}))
@@ -104,19 +110,19 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
           <div className={styles.interfaceHalf}>
             <form className={styles.container_12pt}>
               <div className={styles[`${`container_${type}`}`]}>
-                <Input name={`${type}Value`} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
+                <Input name={`${type}Value`} value={formState && formState[`${type}Value`]} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
               </div>
-              <Button text="Добавить в head" linkedList="small" type="submit" />
-              <Button text="Добавить в tail" linkedList="small" type="submit" />
-              <Button text="Удалить из head" linkedList="small" type="submit" />
-              <Button text="Удалить из tail" linkedList="small" type="submit" />
+              <Button text="Добавить в head" linkedList="small" type="button" onClick={() => addHeadButton && addHeadButton()} />
+              <Button text="Добавить в tail" linkedList="small" type="button" onClick={() => addTailButton && addTailButton()} />
+              <Button text="Удалить из head" linkedList="small" type="button" onClick={() => removeHeadButton && removeHeadButton()} />
+              <Button text="Удалить из tail" linkedList="small" type="button" onClick={() => removeTailButton && removeTailButton()} />
             </form>
             <form className={styles.container_12pt}>
               <div className={styles[`${`container_${type}`}`]}>
-                <Input name={`${type}Idx`} type='number' placeholder="Введите индекс" onChange={fillForm} />
+                <Input name={`${type}Idx`} value={formState && formState[`${type}Idx`]} type='number' placeholder="Введите индекс" onChange={fillForm} />
               </div>
-              <Button text="Добавить по индексу" linkedList="big" type="submit" />
-              <Button text="Удалить по индексу" linkedList="big" type="submit" />
+              <Button text="Добавить по индексу" linkedList="big" type="button" onClick={() => addByIdxButton && addByIdxButton()} />
+              <Button text="Удалить по индексу" linkedList="big" type="button" onClick={() => removeByIdxButton && removeByIdxButton()} />
             </form>
           </div>
         </div>

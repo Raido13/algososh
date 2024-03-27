@@ -13,7 +13,7 @@ import { TFormState } from "../../types/types";
 
 function App() {
   const [active, setActive] = useState(false);
-  const [formState, setFormState] = useState<TFormState>({'stack': '', 'fibonacci': '', 'string': '', 'queue': ''});
+  const [formState, setFormState] = useState<TFormState>({'stack': '', 'fibonacci': '', 'string': '', 'queue': '', 'linkedListValue': '', 'linkedListIdx': ''});
 
   return (
     <div className="app">

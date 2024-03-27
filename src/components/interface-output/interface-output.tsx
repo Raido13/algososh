@@ -12,12 +12,15 @@ interface IInterfaceOutputProps {
   sortingAnimation?: AnimationFrame,
   stackAnimation?: AnimationFrame,
   queueAnimation?: AnimationFrame,
+  linkedListAnimation? : (string | [string, ElementStates])[][],
   queueHead?: number,
   isHead?: boolean,
   queueTail?: number
 }
 
-export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimation, fibonacciAnimation, sortingAnimation, stackAnimation, queueAnimation, queueHead, isHead, queueTail}) => {
+export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimation, fibonacciAnimation, sortingAnimation, stackAnimation, queueAnimation, linkedListAnimation, queueHead, isHead, queueTail}) => {
+
+  console.log(linkedListAnimation);
   switch(type) {
     case 'string': return (
       <div className={styles.interfaceOutput}>
@@ -55,7 +58,11 @@ export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimati
       </div>
     );
     // case 'linkedList': return (
-
+    //   <div className={styles.interfaceOutput}>
+    //     <div className={styles[`${`interfaceOutput_${type}`}`]}>
+    //       {linkedListAnimation && linkedListAnimation.length !== null && linkedListAnimation.map((frame, idx) => <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={idx === queueHead && isHead ? 'head' : ''} tail={idx === queueTail && frame[0] ? 'tail' : ''} key={idx} />)}
+    //     </div>
+    //   </div>
     // );
     default: return <h3>No props</h3>
   }
