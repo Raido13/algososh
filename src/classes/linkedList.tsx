@@ -13,7 +13,7 @@ interface ILinkedList<T> {
   insertAt: (element: T, idx: number) => void;
   removeAt: (idx: number) => void;
   getSize: () => number;
-  print: () => void;
+  print: () => T[];
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
@@ -67,8 +67,8 @@ export class LinkedList<T> implements ILinkedList<T> {
           current.next = node;
         }
 
-        ++this.size
       }
+      ++this.size
     }
   };
 

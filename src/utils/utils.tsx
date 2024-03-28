@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+import { Circle } from "../components/ui/circle/circle";
 import { Direction } from "../types/direction";
 import { ElementStates } from "../types/element-states";
 import { AnimationFrame } from "../types/types";
@@ -140,3 +142,5 @@ export const bubbleSort = (array: number[], direction: Direction): AnimationFram
 
   return animationFrames
 }
+
+export const getSmallCircle = (value: string, state: ElementStates): string | ReactElement => <Circle state={state} letter={value} isSmall={true} />
