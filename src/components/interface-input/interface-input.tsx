@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect } from "react";
+import { ChangeEvent, FC, FormEvent, useEffect } from "react";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { RadioInput } from '../ui/radio-input/radio-input';
@@ -30,13 +30,24 @@ interface IInterfaceInputProps {
   size?: boolean,
   loaderState?: LoaderStates | string,
   frameLength?: number,
-  onSubmit?: () => void
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void
 }
 
-export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray, addButton, removeButton, clearButton, addHeadButton, removeHeadButton, addTailButton, removeTailButton, addByIdxButton, removeByIdxButton, size, loaderState, frameLength, onSubmit}) => {
+export const InterfaceInput: FC<IInterfaceInputProps> = ({type, active, setFormState, formState, sort, changeRadio, changeDirection, resetArray, addButton, removeButton, clearButton, addHeadButton, removeHeadButton, addTailButton, removeTailButton, addByIdxButton, removeByIdxButton, size, loaderState, frameLength, onSubmit}) => {
   const fillForm = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setFormState && setFormState(prevState => ({...prevState, [e.target.name]: e.target.value}))
+  }
+
+  const fibonacciFillForm = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.length > 2) {
+      e.target.value = e.target.value.slice(0, 2);
+    } else if (+e.target.value > 19) {
+      e.target.value = '19'
+    } else if (+e.target.value < 1 && e.target.value !== '') {
+      e.target.value = '1'
+    }
+    fillForm(e)
   }
 
   const conditionIdxAdd = (value: string, idx: string, length: number = frameLength ? frameLength : 0, isAdding: boolean): boolean => {
@@ -59,9 +70,9 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'string': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_12pt}>
+          <form className={styles.container_12pt} onSubmit={(e) => onSubmit && onSubmit(e)} >
             <Input isLimitText={true} value={formState && formState[type]} maxLength={11} name={type} onChange={fillForm} />
-            <Button text="Развернуть" type="button" isLoader={active} disabled={formState && formState[type] === ''} onClick={() => onSubmit && onSubmit()} />
+            <Button text="Развернуть" type="submit" isLoader={active} disabled={formState && formState[type] === ''} />
           </form>
         </div>
       </div>
@@ -69,9 +80,9 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'fibonacci': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_12pt}>
-            <Input isLimitText={true} value={formState && formState[type]} type={'other'} name={type} max={19} onChange={fillForm} />
-            <Button text="Рассчитать" type="button" isLoader={active} disabled={formState && (formState[type] === '' || +formState[type] > 19 || +formState[type] < 1)} onClick={() => onSubmit && onSubmit()} />
+          <form className={styles.container_12pt} onSubmit={(e) => onSubmit && onSubmit(e)}>
+            <Input isLimitText={true} value={formState && formState[type]} type='number' name={type} max={19} onChange={fibonacciFillForm} />
+            <Button text="Рассчитать" type="submit" isLoader={active} disabled={formState && (formState[type] === '' || +formState[type] > 19 || +formState[type] < 1)} />
           </form>
         </div>
       </div>
@@ -79,7 +90,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'arraySort': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_80pt}>
+          <form className={styles.container_80pt} onSubmit={e => e.preventDefault()}>
             <div className={styles[`${`container_${type}`}`]}>
               <div className={styles.container_52pt}>
                 <div className={styles.container_40pt}>
@@ -100,13 +111,13 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'stack': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_80pt}>
+          <form className={styles.container_80pt} onSubmit={e => e.preventDefault()}>
             <div className={`${styles.container_12pt} ${styles[`${`container_${type}`}`]}`}>
               <Input isLimitText={true} name={type} value={formState && formState[type]} maxLength={4} onChange={fillForm} />
-              <Button text="Добавить" type="button" disabled={formState && formState[type] === ''} onClick={() => addButton && addButton()} />
-              <Button text="Удалить" type="button" disabled={active || size} onClick={() => removeButton && removeButton()} />
+              <Button text="Добавить" type="button" isLoader={loaderState === LoaderStates.Add} disabled={formState && formState[type] === ''} onClick={() => addButton && addButton()} />
+              <Button text="Удалить" type="button" isLoader={loaderState === LoaderStates.Remove} disabled={active || size} onClick={() => removeButton && removeButton()} />
             </div>
-            <Button text="Очистить" type="button" disabled={active || size} onClick={() => clearButton && clearButton()} />
+            <Button text="Очистить" type="button" isLoader={loaderState === LoaderStates.Reset} disabled={active || size} onClick={() => clearButton && clearButton()} />
           </form>
         </div>
       </div>
@@ -114,13 +125,13 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
     case 'queue': return (
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
-          <form className={styles.container_80pt}>
+          <form className={styles.container_80pt} onSubmit={e => e.preventDefault()}>
             <div className={`${styles.container_12pt} ${styles[`${`container_${type}`}`]}`}>
               <Input isLimitText={true} name={type} value={formState && formState[type]} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
-              <Button text="Добавить" disabled={formState && formState[type] === ''} onClick={() => addButton && addButton()} type="submit" />
-              <Button text="Удалить" disabled={active || size} type="button" onClick={() => removeButton && removeButton()} />
+              <Button text="Добавить" isLoader={loaderState === LoaderStates.Add} disabled={formState && formState[type] === ''} onClick={() => addButton && addButton()} type="submit" />
+              <Button text="Удалить" isLoader={loaderState === LoaderStates.Remove} disabled={active || size} type="button" onClick={() => removeButton && removeButton()} />
             </div>
-            <Button text="Очистить" disabled={active || size} type="button" onClick={() => clearButton && clearButton()} />
+            <Button text="Очистить" isLoader={loaderState === LoaderStates.Reset} disabled={active || size} type="button" onClick={() => clearButton && clearButton()} />
           </form>
         </div>
       </div>
@@ -129,7 +140,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
       <div className={styles.interfaceInput}>
         <div className={styles[`${`interfaceInput_${type}`}`]}>
           <div className={styles.interfaceHalf}>
-            <form className={styles.container_12pt}>
+            <form className={styles.container_12pt} onSubmit={e => e.preventDefault()}>
               <div className={styles[`${`container_${type}`}`]}>
                 <Input isLimitText={true} name={`${type}Value`} value={formState && formState[`${type}Value`]} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
               </div>
@@ -138,7 +149,7 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, setActive, activ
               <Button text="Удалить из head" disabled={active || size} isLoader={loaderState === LoaderStates.RemoveHead} linkedList="small" type="button" onClick={() => removeHeadButton && removeHeadButton()} />
               <Button text="Удалить из tail" disabled={active || size} isLoader={loaderState === LoaderStates.RemoveTail} linkedList="small" type="button" onClick={() => removeTailButton && removeTailButton()} />
             </form>
-            <form className={styles.container_12pt}>
+            <form className={styles.container_12pt} onSubmit={e => e.preventDefault()}>
               <div className={styles[`${`container_${type}`}`]}>
                 <Input name={`${type}Idx`} value={formState && formState[`${type}Idx`]} type='number' placeholder="Введите индекс" onChange={fillForm} />
               </div>

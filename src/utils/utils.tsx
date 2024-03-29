@@ -144,3 +144,5 @@ export const bubbleSort = (array: number[], direction: Direction): AnimationFram
 }
 
 export const getSmallCircle = (value: string, state: ElementStates): string | ReactElement => <Circle state={state} letter={value} isSmall={true} />
+
+export const delay = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms))

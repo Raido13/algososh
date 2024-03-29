@@ -3,33 +3,42 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { InterfaceInput } from "../interface-input/interface-input";
 import { AnimationFrame, TFormState, TSetActive, TSetFormState } from "../../types/types";
 import { Stack } from "../../classes/stack";
-import { ElementStates } from "../../types/element-states";
+import { ElementStates, LoaderStates } from "../../types/element-states";
 import { InterfaceOutput } from "../interface-output/interface-output";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../../utils/utils";
 
 export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFormState: TSetFormState, formState: TFormState}> = ({setActive, active, setFormState, formState})  => {
   const [stack] = useState<Stack<string>>(new Stack<string>());
   const [stackAnimation, setAnimation] = useState<AnimationFrame>([]);
+  const [loaderState, setLoaderState] = useState<LoaderStates | string>('');
   let size = stackAnimation.length === 0;
 
-  const addButton = () => {
+  const addButton = async () => {
     stack.push(formState['stack']);
     setFormState({'stack': ''});
     setActive(true);
+    setLoaderState(LoaderStates.Add);
     stack.getSize() > 0 && setAnimation(stackFrame(true));
-    stack.getSize() > 0 && setTimeout(() => setAnimation(stackFrame()), SHORT_DELAY_IN_MS);
+    stack.getSize() > 0 && await delay(SHORT_DELAY_IN_MS) && setAnimation(stackFrame());
     setActive(false);
+    setLoaderState('')
   }
 
-  const removeButton = () => {
+  const removeButton = async () => {
     stack.pop();
+    setLoaderState(LoaderStates.Remove);
     setAnimation(stackFrame(true));
-    setTimeout(() => setAnimation(stackFrame()), SHORT_DELAY_IN_MS);
+    await delay(SHORT_DELAY_IN_MS);
+    setAnimation(stackFrame());
     setActive(false);
+    setLoaderState('')
   }
 
   const clearButton = () => {
+    setLoaderState(LoaderStates.Reset);
     stack.clear();
+    setLoaderState('');
     setAnimation([]);
   }
 
@@ -41,7 +50,7 @@ export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFor
 
   return (
     <SolutionLayout title="Стек">
-      <InterfaceInput type='stack' setActive={setActive} active={active} setFormState={setFormState} formState={formState} addButton={addButton} removeButton={removeButton} clearButton={clearButton} size={size} />
+      <InterfaceInput type='stack' setActive={setActive} active={active} setFormState={setFormState} formState={formState} addButton={addButton} removeButton={removeButton} clearButton={clearButton} size={size} loaderState={loaderState} />
       <InterfaceOutput type='stack' stackAnimation={stackAnimation} />
     </SolutionLayout>
   );

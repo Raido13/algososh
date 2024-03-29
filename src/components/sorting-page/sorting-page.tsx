@@ -4,7 +4,7 @@ import { InterfaceInput } from "../interface-input/interface-input";
 import { AnimationFrame, TSetActive } from "../../types/types";
 import { Sort } from "../../types/sort";
 import { Direction } from "../../types/direction";
-import { createInitialAnimation, createInitialArray } from "../../utils/utils";
+import { createInitialAnimation, createInitialArray, delay } from "../../utils/utils";
 import { choiseSort } from "../../utils/utils";
 import { bubbleSort } from "../../utils/utils";
 import { DELAY_IN_MS} from "../../constants/delays";
@@ -19,7 +19,7 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
     setAnimation(createInitialAnimation(sort.array))
   }
 
-  const changeDirection = (newDirection: Direction) => {
+  const changeDirection = async (newDirection: Direction) => {
     setSort({...sort, direction: newDirection});
     setAnimation(createInitialAnimation(sort.array));
     setActive(true);
@@ -28,14 +28,13 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
           ? choiseSort(sort.array, newDirection)
           : bubbleSort(sort.array, newDirection);
 
-    animations.forEach((frame, i) => {
-      setTimeout(() => {
-        setAnimation(frame);
-        if (i === animations.length - 1) {
-          setActive(false);
-        }
-      }, i * DELAY_IN_MS)
-    });
+    for (let i = 0; i < animations.length; i++) {
+      await delay(DELAY_IN_MS);
+      setAnimation(animations[i]);
+      if(i === animations.length - 1) {
+        setActive(false)
+      }
+    }
   }
 
   const resetArray = () => {

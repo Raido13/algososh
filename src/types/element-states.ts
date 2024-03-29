@@ -5,6 +5,9 @@ export enum ElementStates {
 }
 
 export enum LoaderStates {
+  Add = 'add',
+  Remove = 'remove',
+  Reset = 'reset',
   AddHead = 'addHead',
   AddTail = 'addTail',
   RemoveHead = 'removeHead',
