@@ -9,23 +9,27 @@ import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 export const FibonacciPage: React.FC<{setActive: TSetActive, active: boolean, setFormState: TSetFormState, formState: TFormState}> = ({setActive, active, setFormState, formState})  => {
   const [fibonacciAnimation, setAnimation] = useState<number[]>();
 
-  useEffect(() => {
-    if (active) {
-      const finobacciAnimations = fibonacci(+formState['fibonacci']);
-      finobacciAnimations.forEach((frame, i) => {
-        setTimeout(() => {
-          setAnimation(frame)
-          if(i === finobacciAnimations.length - 1) {
-            setActive(false)
-          }
-        }, i * SHORT_DELAY_IN_MS)
-      })
-    }
-  }, [formState, setActive, active])
+  const onSubmit = () => {
+    setActive(true);
+    const finobacciAnimations = fibonacci(+formState['fibonacci']);
+    finobacciAnimations.forEach((frame, i) => {
+      setTimeout(() => {
+        setAnimation(frame)
+        if(i === finobacciAnimations.length - 1) {
+          setActive(false)
+        }
+      }, i * SHORT_DELAY_IN_MS)
+    })
+  }
+
+  useEffect(() => () => {
+      setActive(false);
+      setAnimation([])
+  }, [])
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <InterfaceInput type='fibonacci' setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
+      <InterfaceInput type='fibonacci' setActive={setActive} active={active} setFormState={setFormState} formState={formState} onSubmit={onSubmit} />
       {fibonacciAnimation?.length && <InterfaceOutput type='fibonacci' fibonacciAnimation={fibonacciAnimation} />}
     </SolutionLayout>
   );

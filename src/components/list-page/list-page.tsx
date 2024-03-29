@@ -3,7 +3,7 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { InterfaceInput } from "../interface-input/interface-input";
 import { TFormState, TSetActive, TSetFormState } from "../../types/types";
 import { LinkedList } from "../../classes/linkedList";
-import { ElementStates } from "../../types/element-states";
+import { ElementStates, LoaderStates } from "../../types/element-states";
 import { DELAY_IN_MS } from "../../constants/delays";
 import { InterfaceOutput } from "../interface-output/interface-output";
 
@@ -18,6 +18,8 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
 
   const [isAdding, setAdding] = useState(false);
 
+  const [loaderState, setLoaderState] = useState<LoaderStates | string>('');
+
   if (list.getSize() === 0) {
     list.append('1');
     list.append('2');
@@ -29,6 +31,8 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
 
   const addHeadButton = () => {
     setAdding(true);
+    setActive(true);
+    setLoaderState(LoaderStates.AddHead);
     let frame = listFrame(ElementStates.Default);
     frame[0].push([formState['linkedListValue'], ElementStates.Changing]);
     setAnimation(frame);
@@ -41,11 +45,15 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
 
     setTimeout(() => {
       setAnimation(listFrame(ElementStates.Default));
-      setAdding(false)
+      setAdding(false);
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS * 2)
   }
 
   const removeHeadButton = () => {
+    setActive(true);
+    setLoaderState(LoaderStates.RemoveHead);
     let frame = listFrame(ElementStates.Default);
     frame[0][0] = '';
     frame[0].push([list.print()[0] as string, ElementStates.Changing]);
@@ -54,11 +62,15 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     setTimeout(() => {
       list.removeAt(0);
       setAnimation(listFrame(ElementStates.Default))
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS)
   }
 
   const addTailButton = () => {
     setAdding(true);
+    setActive(true);
+    setLoaderState(LoaderStates.AddTail);
     let frame = listFrame(ElementStates.Default);
     frame[list.getSize() - 1].push([formState['linkedListValue'], ElementStates.Changing]);
     setAnimation(frame);
@@ -72,10 +84,14 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     setTimeout(() => {
       setAnimation(listFrame(ElementStates.Default));
       setAdding(false);
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS * 2)
   }
 
   const removeTailButton = () => {
+    setActive(true);
+    setLoaderState(LoaderStates.RemoveTail);
     let frame = listFrame(ElementStates.Default);
     frame[list.getSize() - 1].push([list.print()[list.getSize() - 1] as string, ElementStates.Changing]);
     frame[list.getSize() - 1][0] = '';
@@ -83,12 +99,16 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
 
     setTimeout(() => {
       list.removeAt(list.getSize() - 1);
-      setAnimation(listFrame(ElementStates.Default))
+      setAnimation(listFrame(ElementStates.Default));
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS)
   }
 
   const addByIdxButton = () => {
     setAdding(true);
+    setActive(true);
+    setLoaderState(LoaderStates.AddIdx);
     const idx = +formState['linkedListIdx'];
     setFormState(prevState => ({...prevState, 'linkedListIdx': ''}));
 
@@ -113,11 +133,15 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
 
     setTimeout(() => {
       setAnimation(listFrame(ElementStates.Default));
-      setAdding(false)
+      setAdding(false);
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS * (idx + 2))
   }
 
   const removeByIdxButton = () => {
+    setActive(true);
+    setLoaderState(LoaderStates.RemoveIdx);
     const idx = +formState['linkedListIdx'];
     setFormState(prevState => ({...prevState, 'linkedListIdx': ''}));
       
@@ -144,17 +168,26 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     setTimeout(() => {
       list.removeAt(idx);
       setFormState(prevState => ({...prevState, 'linkedListValue': ''}));
-      setAnimation(listFrame(ElementStates.Default))
+      setAnimation(listFrame(ElementStates.Default));
+      setActive(false);
+      setLoaderState('');
     }, DELAY_IN_MS * (idx + 2))
   }
 
   useEffect(() => {
-    setAnimation(listFrame(ElementStates.Default))
+    setAnimation(listFrame(ElementStates.Default));
+    return () => {
+      setActive(false);
+      setLoaderState('');
+      setAnimation([]);
+    }
   }, [setAnimation]);
 
+  let size = linkedListAnimation.length === 0;
+  let frameLength = linkedListAnimation.length;
   return (
     <SolutionLayout title="Связный список">
-      <InterfaceInput type='linkedList' setActive={setActive} active={active} setFormState={setFormState} formState={formState} addHeadButton={addHeadButton} addTailButton={addTailButton} removeHeadButton={removeHeadButton} removeTailButton={removeTailButton} addByIdxButton={addByIdxButton} removeByIdxButton={removeByIdxButton} />
+      <InterfaceInput type='linkedList' setActive={setActive} active={active} setFormState={setFormState} formState={formState} addHeadButton={addHeadButton} addTailButton={addTailButton} removeHeadButton={removeHeadButton} removeTailButton={removeTailButton} addByIdxButton={addByIdxButton} removeByIdxButton={removeByIdxButton} size={size} loaderState={loaderState} frameLength={frameLength} />
       <InterfaceOutput type='linkedList' linkedListAnimation={linkedListAnimation} isAdding={isAdding} />
     </SolutionLayout>
   );

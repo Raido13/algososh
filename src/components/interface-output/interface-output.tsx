@@ -5,6 +5,7 @@ import { ElementStates } from "../../types/element-states";
 import { Column } from "../ui/column/column";
 import { AnimationFrame } from "../../types/types";
 import { getSmallCircle } from "../../utils/utils";
+import { ArrowIcon } from "../ui/icons/arrow-icon";
 
 interface IInterfaceOutputProps {
   type: string,
@@ -61,7 +62,14 @@ export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimati
     case 'linkedList': return (
       <div className={styles.interfaceOutput}>
         <div className={styles[`${`interfaceOutput_${type}`}`]}>
-          {linkedListAnimation && linkedListAnimation.length !== null && linkedListAnimation.map((frame, idx) => <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={frame.length > 2 ? isAdding ? getSmallCircle(frame[2][0] as string, frame[2][1] as ElementStates) : idx === 0 ? 'head' : '' : idx === 0 ? 'head' : ''} tail={frame.length > 2 ? !isAdding ? getSmallCircle(frame[2][0] as string, frame[2][1] as ElementStates) : idx === linkedListAnimation.length - 1 ? 'tail' : '' : idx === linkedListAnimation.length - 1 ? 'tail' : ''} key={idx} />)}
+          {linkedListAnimation && linkedListAnimation.length !== null && linkedListAnimation.map((frame, idx) => {
+            return (
+              <div className={styles[`${type}_item`]} key={idx}>
+                <Circle state={frame[1] as ElementStates} letter={frame[0] as string} index={idx} head={frame.length > 2 ? isAdding ? getSmallCircle(frame[2][0] as string, frame[2][1] as ElementStates) : idx === 0 ? 'head' : '' : idx === 0 ? 'head' : ''} tail={frame.length > 2 ? !isAdding ? getSmallCircle(frame[2][0] as string, frame[2][1] as ElementStates) : idx === linkedListAnimation.length - 1 ? 'tail' : '' : idx === linkedListAnimation.length - 1 ? 'tail' : ''} />
+                {idx !== linkedListAnimation.length - 1 && <ArrowIcon fill={frame[1] === ElementStates.Changing && linkedListAnimation[idx + 1][1] !== ElementStates.Default ? '#D252E1' : '#0032FF'} />}
+              </div>
+            )
+          })}
         </div>
       </div>
     );

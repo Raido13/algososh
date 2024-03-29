@@ -56,3 +56,10 @@
   row-gap: 96px;
   flex-wrap: wrap;
 }
+
+.linkedList_item {
+  display: flex;
+  column-gap: 16px;
+  justify-content: center;
+  align-items: center;
+}

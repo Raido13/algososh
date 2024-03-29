@@ -14,22 +14,6 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
   const [sort, setSort] = useState<{type: Sort, direction: Direction, array: number[]}>({ type: Sort.Choise, direction: Direction.Ascending, array: [] });
   const [sortingAnimation, setAnimation] = useState<AnimationFrame>([]);
 
-  useEffect(() => {
-    if(active) {
-      const animations = sort.type === Sort.Choise
-          ? choiseSort(sort.array, sort.direction)
-          : bubbleSort(sort.array, sort.direction);
-      animations.forEach((frame, i) => {
-        setTimeout(() => {
-          setAnimation(frame);
-          if (i === animations.length - 1) {
-            setActive(false)
-          }
-        }, i * DELAY_IN_MS)
-      })
-    }
-  }, [active, sort.array, sort.type, sort.direction, setActive])
-
   const changeRadio = (newType: Sort) => {
     setSort({...sort, type: newType})
     setAnimation(createInitialAnimation(sort.array))
@@ -39,6 +23,19 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
     setSort({...sort, direction: newDirection});
     setAnimation(createInitialAnimation(sort.array));
     setActive(true);
+
+    const animations = sort.type === Sort.Choise
+          ? choiseSort(sort.array, newDirection)
+          : bubbleSort(sort.array, newDirection);
+
+    animations.forEach((frame, i) => {
+      setTimeout(() => {
+        setAnimation(frame);
+        if (i === animations.length - 1) {
+          setActive(false);
+        }
+      }, i * DELAY_IN_MS)
+    });
   }
 
   const resetArray = () => {
@@ -48,6 +45,11 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
   }
 
   if (sortingAnimation.length === 0) resetArray();
+
+  useEffect(() => () => {
+    setActive(false);
+    setAnimation([])
+  }, [])
 
   return (
     <SolutionLayout title="Сортировка массива">
