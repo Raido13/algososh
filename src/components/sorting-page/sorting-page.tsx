@@ -7,12 +7,14 @@ import { Direction } from "../../types/direction";
 import { createInitialAnimation, createInitialArray, delay } from "../../utils/utils";
 import { choiseSort } from "../../utils/utils";
 import { bubbleSort } from "../../utils/utils";
-import { DELAY_IN_MS} from "../../constants/delays";
+import { DELAY_IN_MS } from "../../constants/delays";
 import { InterfaceOutput } from '../interface-output/interface-output';
+import { LoaderStates } from "../../types/element-states";
 
 export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = ({setActive, active})  => {
   const [sort, setSort] = useState<{type: Sort, direction: Direction, array: number[]}>({ type: Sort.Choise, direction: Direction.Ascending, array: [] });
   const [sortingAnimation, setAnimation] = useState<AnimationFrame>([]);
+  const [loaderState, setLoaderState] = useState<LoaderStates | string>('');
 
   const changeRadio = (newType: Sort) => {
     setSort({...sort, type: newType})
@@ -22,6 +24,7 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
   const changeDirection = async (newDirection: Direction) => {
     setSort({...sort, direction: newDirection});
     setAnimation(createInitialAnimation(sort.array));
+    setLoaderState(newDirection);
     setActive(true);
 
     const animations = sort.type === Sort.Choise
@@ -32,27 +35,41 @@ export const SortingPage: React.FC<{setActive: TSetActive, active: boolean}> = (
       await delay(DELAY_IN_MS);
       setAnimation(animations[i]);
       if(i === animations.length - 1) {
-        setActive(false)
+        setActive(false);
+        setLoaderState('')
       }
     }
   }
 
-  const resetArray = () => {
+  const createInitialFrame = () => {
     const initialArray = createInitialArray();
     setSort({ ...sort, array: initialArray });
-    setAnimation(createInitialAnimation(initialArray))
+    return initialArray;
   }
 
-  if (sortingAnimation.length === 0) resetArray();
-
-  useEffect(() => () => {
+  const resetArray = async () => {
+    setLoaderState(LoaderStates.Reset);
+    const initialArray = createInitialFrame();
+    setActive(true);
+    await delay(DELAY_IN_MS);
+    setAnimation(createInitialAnimation(initialArray));
     setActive(false);
-    setAnimation([])
+    setLoaderState('')
+  }
+
+  useEffect(() => {
+    const initialArray = createInitialFrame();
+    setAnimation(createInitialAnimation(initialArray));
+
+    return () => {
+      setActive(false);
+      setAnimation([])
+    }
   }, [])
 
   return (
     <SolutionLayout title="Сортировка массива">
-      <InterfaceInput type='arraySort' sort={sort} changeRadio={changeRadio} changeDirection={changeDirection} resetArray={resetArray} active={active} />
+      <InterfaceInput type='arraySort' sort={sort} changeRadio={changeRadio} changeDirection={changeDirection} resetArray={resetArray} active={active} loaderState={loaderState} />
       <InterfaceOutput type="arraySort" sortingAnimation={sortingAnimation} />
     </SolutionLayout>
   );

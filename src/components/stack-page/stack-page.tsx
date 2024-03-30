@@ -38,6 +38,7 @@ export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFor
   const clearButton = async () => {
     setLoaderState(LoaderStates.Reset);
     stack.clear();
+    await delay(SHORT_DELAY_IN_MS);
     setAnimation([]);
     setLoaderState('');
   }

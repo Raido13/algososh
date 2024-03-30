@@ -8,6 +8,8 @@ export enum LoaderStates {
   Add = 'add',
   Remove = 'remove',
   Reset = 'reset',
+  Ascending = 'ascending',
+  Descending = 'descending',
   AddHead = 'addHead',
   AddTail = 'addTail',
   RemoveHead = 'removeHead',

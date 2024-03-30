@@ -39,6 +39,7 @@ export const QueuePage: React.FC<{setActive: TSetActive, active: boolean, setFor
   const clearButton = async () => {
     setLoaderState(LoaderStates.Reset);
     queue.clear();
+    await delay(SHORT_DELAY_IN_MS);
     setAnimation(queue.getAll().map(value => [value, ElementStates.Default]));
     setLoaderState('');
   }

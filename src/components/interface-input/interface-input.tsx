@@ -98,12 +98,12 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, active, setFormS
                   <RadioInput label="Пузырёк" disabled={active} checked={sort && sort.type === Sort.Bubble} onChange={() => changeRadio && changeRadio(Sort.Bubble)} />
                 </div>
                 <div className={styles.container_12pt}>
-                  <Button text="По возрастанию" isLoader={active && sort?.direction === Direction.Ascending} disabled={active} sorting={Direction.Ascending} type="button" onClick={() => changeDirection && changeDirection(Direction.Ascending)} />
-                  <Button text="По убыванию" isLoader={active && sort?.direction === Direction.Descending} disabled={active} sorting={Direction.Descending} type="button" onClick={() => changeDirection && changeDirection(Direction.Descending)} />
+                  <Button text="По возрастанию" isLoader={loaderState === LoaderStates.Ascending} disabled={active} sorting={Direction.Ascending} type="button" onClick={() => changeDirection && changeDirection(Direction.Ascending)} />
+                  <Button text="По убыванию" isLoader={loaderState === LoaderStates.Descending} disabled={active} sorting={Direction.Descending} type="button" onClick={() => changeDirection && changeDirection(Direction.Descending)} />
                 </div>
               </div>
             </div>
-            <Button text="Новый массив" disabled={active} type="button" onClick={() => resetArray && resetArray()} />
+            <Button text="Новый массив" disabled={active} isLoader={loaderState === LoaderStates.Reset} type="button" onClick={() => resetArray && resetArray()} />
           </form>
         </div>
       </div>
@@ -144,8 +144,8 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, active, setFormS
               <div className={styles[`${`container_${type}`}`]}>
                 <Input isLimitText={true} name={`${type}Value`} value={formState && formState[`${type}Value`]} maxLength={4} placeholder="Введите значение" onChange={fillForm} />
               </div>
-              <Button text="Добавить в head" disabled={formState && formState[`${type}Value`] === ''} isLoader={loaderState === LoaderStates.AddHead} linkedList="small" type="button" onClick={() => addHeadButton && addHeadButton()} />
-              <Button text="Добавить в tail" disabled={formState && formState[`${type}Value`] === ''} isLoader={loaderState === LoaderStates.AddTail} linkedList="small" type="button" onClick={() => addTailButton && addTailButton()} />
+              <Button text="Добавить в head" disabled={active || (formState && formState[`${type}Value`] === '')} isLoader={loaderState === LoaderStates.AddHead} linkedList="small" type="button" onClick={() => addHeadButton && addHeadButton()} />
+              <Button text="Добавить в tail" disabled={active || (formState && formState[`${type}Value`] === '')} isLoader={loaderState === LoaderStates.AddTail} linkedList="small" type="button" onClick={() => addTailButton && addTailButton()} />
               <Button text="Удалить из head" disabled={active || size} isLoader={loaderState === LoaderStates.RemoveHead} linkedList="small" type="button" onClick={() => removeHeadButton && removeHeadButton()} />
               <Button text="Удалить из tail" disabled={active || size} isLoader={loaderState === LoaderStates.RemoveTail} linkedList="small" type="button" onClick={() => removeTailButton && removeTailButton()} />
             </form>
@@ -153,8 +153,8 @@ export const InterfaceInput: FC<IInterfaceInputProps> = ({type, active, setFormS
               <div className={styles[`${`container_${type}`}`]}>
                 <Input name={`${type}Idx`} value={formState && formState[`${type}Idx`]} type='number' placeholder="Введите индекс" onChange={fillForm} />
               </div>
-              <Button text="Добавить по индексу" disabled={formState && conditionIdxAdd(formState[`${type}Value`], formState[`${type}Idx`], frameLength, true)} isLoader={loaderState === LoaderStates.AddIdx} linkedList="big" type="button" onClick={() => addByIdxButton && addByIdxButton()} />
-              <Button text="Удалить по индексу" disabled={formState && conditionIdxAdd(formState[`${type}Value`], formState[`${type}Idx`], frameLength, false)} isLoader={loaderState === LoaderStates.RemoveIdx} linkedList="big" type="button" onClick={() => removeByIdxButton && removeByIdxButton()} />
+              <Button text="Добавить по индексу" disabled={active || (formState && conditionIdxAdd(formState[`${type}Value`], formState[`${type}Idx`], frameLength, true))} isLoader={loaderState === LoaderStates.AddIdx} linkedList="big" type="button" onClick={() => addByIdxButton && addByIdxButton()} />
+              <Button text="Удалить по индексу" disabled={active || (formState && conditionIdxAdd(formState[`${type}Value`], formState[`${type}Idx`], frameLength, false))} isLoader={loaderState === LoaderStates.RemoveIdx} linkedList="big" type="button" onClick={() => removeByIdxButton && removeByIdxButton()} />
             </form>
           </div>
         </div>
