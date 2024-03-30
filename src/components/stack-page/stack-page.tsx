@@ -35,11 +35,11 @@ export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFor
     setLoaderState('')
   }
 
-  const clearButton = () => {
+  const clearButton = async () => {
     setLoaderState(LoaderStates.Reset);
     stack.clear();
-    setLoaderState('');
     setAnimation([]);
+    setLoaderState('');
   }
 
   const stackFrame = (isAdding: boolean = false): AnimationFrame => stack.getAll().map((value, idx) => [value, isAdding && idx === stack.getSize() - 1 ? ElementStates.Changing : ElementStates.Default]);

@@ -18,21 +18,25 @@ export const QueuePage: React.FC<{setActive: TSetActive, active: boolean, setFor
     queue.enqueue(formState['queue']);
     setFormState({'queue': ''});
     setActive(true);
+    setLoaderState(LoaderStates.Add);
     queue.getSize() > 0 && setAnimation(queueFrame(true, queue.getTail()));
     queue.getSize() > 0 && await delay(SHORT_DELAY_IN_MS) && setAnimation(queueFrame());
     setActive(false);
+    setLoaderState('')
   }
 
   const removeButton = async () => {
     queue.dequeue();
     setActive(true);
+    setLoaderState(LoaderStates.Remove);
     setAnimation(queueFrame(true, queue.getHead()));
     await delay(SHORT_DELAY_IN_MS);
     setAnimation(queueFrame());
     setActive(false);
+    setLoaderState('')
   }
 
-  const clearButton = () => {
+  const clearButton = async () => {
     setLoaderState(LoaderStates.Reset);
     queue.clear();
     setAnimation(queue.getAll().map(value => [value, ElementStates.Default]));
