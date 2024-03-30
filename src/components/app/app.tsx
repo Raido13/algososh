@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { FibonacciPage } from "../fibonacci-page/fibonacci-page";
 import { ListPage } from "../list-page/list-page";
@@ -8,33 +8,37 @@ import { StringComponent } from "../string/string";
 import { SortingPage } from "../sorting-page/sorting-page";
 import { StackPage } from "../stack-page/stack-page";
 
-import "./app.css";
+import styles from "./app.module.css";
+import { TFormState } from "../../types/types";
 
 function App() {
+  const [active, setActive] = useState(false);
+  const [formState, setFormState] = useState<TFormState>({'stack': '', 'fibonacci': '', 'string': '', 'queue': '', 'linkedListValue': '', 'linkedListIdx': ''});
+
   return (
-    <div className="app">
+    <div className={styles.app}>
       <BrowserRouter>
         <Switch>
           <Route path="/" exact>
             <MainPage />
           </Route>
           <Route path="/recursion">
-            <StringComponent />
+            <StringComponent setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/fibonacci">
-            <FibonacciPage />
+            <FibonacciPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/sorting">
-            <SortingPage />
+            <SortingPage setActive={setActive} active={active} />
           </Route>
           <Route path="/stack">
-            <StackPage />
+            <StackPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/queue">
-            <QueuePage />
+            <QueuePage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
           <Route path="/list">
-            <ListPage />
+            <ListPage setActive={setActive} active={active} setFormState={setFormState} formState={formState} />
           </Route>
         </Switch>
       </BrowserRouter>
