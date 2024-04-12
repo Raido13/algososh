@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Компонент Column Отрисовка круга: В дефолтном состоянии 1`] = `
+<div
+  class="content "
+>
+  <div
+    class="column default"
+    style="height: 1px;"
+  />
+  <p
+    class="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`Компонент Column Отрисовка круга: В изменяющемся состоянии 1`] = `
+<div
+  class="content "
+>
+  <div
+    class="column changing"
+    style="height: 1px;"
+  />
+  <p
+    class="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`Компонент Column Отрисовка круга: В модифицированном состоянии 1`] = `
+<div
+  class="content "
+>
+  <div
+    class="column modified"
+    style="height: 1px;"
+  />
+  <p
+    class="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`Компонент Column Отрисовка круга: С индексом 1`] = `
+<div
+  class="content "
+>
+  <div
+    class="column default"
+    style="height: 320px;"
+  />
+  <p
+    class="text text_type_column text_color_input mt-3"
+  >
+    100
+  </p>
+</div>
+`;

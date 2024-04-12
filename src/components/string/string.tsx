@@ -13,7 +13,7 @@ export const StringComponent: React.FC<{setActive: TSetActive, active: boolean, 
     e.preventDefault()
     setActive(true);
     const swapAnimations = reverse(formState['string']);
-    
+    console.log(swapAnimations)
     for (let i = 0; i < swapAnimations.length; i++) {
       await delay(DELAY_IN_MS);
       setAnimation(swapAnimations[i]);

@@ -75,6 +75,9 @@ export const createInitialAnimation = (array: number[]): AnimationFrame => array
 
 export const choiseSort = (array: number[], direction: Direction): AnimationFrame[] => {
   const {length} = array;
+
+  if (!(length > 0)) return [];
+
   let animationFrames: AnimationFrame[] = [];
   let currentState: AnimationFrame = createInitialAnimation(array);
 
@@ -108,6 +111,9 @@ export const choiseSort = (array: number[], direction: Direction): AnimationFram
 
 export const bubbleSort = (array: number[], direction: Direction): AnimationFrame[] => {
   const {length} = array;
+
+  if (!(length > 0)) return [];
+
   let animationFrames: AnimationFrame[] = [];
   let currentState: AnimationFrame = createInitialAnimation(array);
   let sorted = false;
