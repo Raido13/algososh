@@ -3,7 +3,7 @@ import { DELAY_IN_MS } from '../../src/constants/delays';
 
 describe(`Проверка работы страницы 'Разворот строки'`, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/recursion');
+    cy.visit('/recursion');
   });
 
   it('Проверка дизейбла кнопки, если инпут пуст', () => {

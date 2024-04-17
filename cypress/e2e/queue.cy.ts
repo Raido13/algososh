@@ -3,7 +3,7 @@ import { ElementStates } from '../../src/types/element-states';
 
 describe(`Проверка работы страницы 'Очередь'`, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/queue');
+    cy.visit('/queue');
   });
 
   it(`Проверка дизейбла кнопки 'Добавить', если инпут пуст`, () => {

@@ -2,7 +2,7 @@ import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
 
 describe(`Проверка работы страницы 'Последовательность Фибоначчи'`, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/fibonacci');
+    cy.visit('/fibonacci');
   });
 
   it('Проверка дизейбла кнопки, если инпут пуст', () => {

@@ -3,7 +3,7 @@ import { ElementStates } from '../../src/types/element-states';
 
 describe(`Проверка работы страницы 'Связный список'`, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/list');
+    cy.visit('/list');
   });
 
   it(`Проверка дизейбла кнопок 'Добавить в head', 'Добавить в tail' и 'Добавить по индексу', если инпут 'Введите значение' пуст`, () => {

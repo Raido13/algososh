@@ -3,7 +3,7 @@ import { ElementStates } from '../../src/types/element-states';
 
 describe(`Проверка работы страницы 'Стек'`, () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000/stack');
+    cy.visit('/stack');
   });
 
   it(`Проверка дизейбла кнопки 'Добавить', если инпут пуст`, () => {

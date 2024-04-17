@@ -1,5 +1,5 @@
 describe('Проверка работы раутинга', () => {
-  beforeEach(() => cy.visit('http://localhost:3000/'))
+  beforeEach(() => cy.visit('/'))
 
   it('Проверка перехода на главную страницу', () => {
     cy.contains(/мбоу алгосош/i)
