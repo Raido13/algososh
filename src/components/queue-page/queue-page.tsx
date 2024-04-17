@@ -20,7 +20,8 @@ export const QueuePage: React.FC<{setActive: TSetActive, active: boolean, setFor
     setActive(true);
     setLoaderState(LoaderStates.Add);
     queue.getSize() > 0 && setAnimation(queueFrame(true, queue.getTail()));
-    queue.getSize() > 0 && await delay(SHORT_DELAY_IN_MS) && setAnimation(queueFrame());
+    await delay(SHORT_DELAY_IN_MS);
+    queue.getSize() > 0 && setAnimation(queueFrame());
     setActive(false);
     setLoaderState('')
   }

@@ -20,7 +20,8 @@ export const StackPage: React.FC<{setActive: TSetActive, active: boolean, setFor
     setActive(true);
     setLoaderState(LoaderStates.Add);
     stack.getSize() > 0 && setAnimation(stackFrame(true));
-    stack.getSize() > 0 && await delay(SHORT_DELAY_IN_MS) && setAnimation(stackFrame());
+    await delay(SHORT_DELAY_IN_MS);
+    stack.getSize() > 0 && setAnimation(stackFrame());
     setActive(false);
     setLoaderState('')
   }

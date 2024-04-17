@@ -11,7 +11,7 @@ describe(`Страница 'Сортировка массива', тестиро
   });
 
   test('Тестирование функции инициализации кадров', () => {
-    const result = createInitialAnimation([1,10,100]);
+    const result = createInitialAnimation([1, 10, 100]);
     expect(result).toStrictEqual([[1, ElementStates.Default], [10, ElementStates.Default], [100, ElementStates.Default]])
   });
 
@@ -32,13 +32,13 @@ describe(`Страница 'Сортировка массива', тестиро
   });
 
   test('Тестирование функции сортировки выбором', () => {
-    const result = choiseSort([1,10,100], Direction.Descending);
+    const result = choiseSort([1, 10, 100], Direction.Descending);
     const { length } = result;
     expect(result[length - 1 ]).toStrictEqual([[100, ElementStates.Modified], [10, ElementStates.Modified], [1, ElementStates.Modified]])
   });
 
   test('Тестирование функции сортировки пузырьком', () => {
-    const result = bubbleSort([1,10,100], Direction.Descending);
+    const result = bubbleSort([1, 10, 100], Direction.Descending);
     const { length } = result;
     expect(result[length - 1 ]).toStrictEqual([[100, ElementStates.Modified], [10, ElementStates.Modified], [1, ElementStates.Modified]])
   })

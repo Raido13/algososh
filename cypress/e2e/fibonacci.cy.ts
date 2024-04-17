@@ -7,7 +7,7 @@ describe(`Проверка работы страницы 'Последовате
 
   it('Проверка дизейбла кнопки, если инпут пуст', () => {
     cy.get('input').should('be.empty');
-    cy.contains('button', 'Рассчитать').should('be.disabled')
+    cy.contains('button', /рассчитать/i).should('be.disabled')
   });
 
   it(`Проверка анимации 'Последовательность Фибоначчи'`, () => {
@@ -39,25 +39,12 @@ describe(`Проверка работы страницы 'Последовате
     cy.get('input').type('19');
     cy.contains('button', 'Рассчитать').click();
 
-    // for (let i = 0; i < length; i++) {
-    //   cy.get('[class^="circle_content"]').as('circleContent');
-    //   cy.get('@circleContent').should('have.length', result[i].length).each(($circleContent, idx) => {
-    //     cy.wrap($circleContent).find('[class*="circle_circle"]').as('circle')
-    //     cy.wrap($circleContent).find('[class*="circle_index"]').as('circle_index')
-    //     cy.get('@circle').should('have.text', result[i][idx]);
-    //     cy.get('@circle_index').should('have.text', i)
-    //   }); 
-    //   cy.wait(SHORT_DELAY_IN_MS) 
-    // }
-
     const checkFrame = (index) => {
       if (index >= length) return;
 
-      cy.get('[class^="interface-output"]').get('[class^="circle_content"]').each(($circleContent, idx) => {
-        cy.wrap($circleContent).find('[class*="circle_circle"]').as('circle');
-        cy.wrap($circleContent).find('[class*="circle_index"]').as('circle_index');
-        cy.get('@circle').should('have.text', result[index][idx]);
-        cy.get('@circle_index').should('have.text', index);
+      cy.get('[class^="interface-output"]').get('[class^="circle_content"]').each(($circleContent, idx, $list) => {
+        cy.wrap($circleContent).find('[class*="circle_circle"]').should('have.text', result[index][idx]);
+        cy.wrap($circleContent).find('[class*="circle_index"]').should('have.text', idx);
       }); 
       cy.wait(SHORT_DELAY_IN_MS).then(() => checkFrame(index + 1));
     }

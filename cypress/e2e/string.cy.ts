@@ -23,7 +23,7 @@ describe(`Проверка работы страницы 'Разворот ст�
     const { length } = result;
 
     cy.get('input').type('asdf');
-    cy.contains('button', 'Развернуть').click();
+    cy.contains('button', /развернуть/i).click();
 
     const checkFrame = (index) => {
       if (index >= length) return;
