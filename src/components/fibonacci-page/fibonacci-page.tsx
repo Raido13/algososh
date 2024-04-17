@@ -31,7 +31,7 @@ export const FibonacciPage: React.FC<{setActive: TSetActive, active: boolean, se
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
       <InterfaceInput type='fibonacci' setActive={setActive} active={active} setFormState={setFormState} formState={formState} onSubmit={onSubmit} />
-      {fibonacciAnimation?.length && <InterfaceOutput type='fibonacci' fibonacciAnimation={fibonacciAnimation} />}
+      <InterfaceOutput type='fibonacci' fibonacciAnimation={fibonacciAnimation} />
     </SolutionLayout>
   );
 };

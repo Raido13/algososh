@@ -27,21 +27,21 @@ export const InterfaceOutput: FC<IInterfaceOutputProps> = ({type, reverseAnimati
     case 'string': return (
       <div className={styles.interfaceOutput}>
         <div className={styles[`${`interfaceOutput_${type}`}`]}>
-          {reverseAnimation?.length && reverseAnimation.map((frame, idx) => <Circle state={frame[1]} letter={frame[0] as string} key={idx} />)}
+          {reverseAnimation && reverseAnimation.length !== null && reverseAnimation.map((frame, idx) => <Circle state={frame[1]} letter={frame[0] as string} key={idx} />)}
         </div>
       </div>
     );
     case 'fibonacci': return (
       <div className={styles.interfaceOutput}>
         <div className={styles[`${`interfaceOutput_${type}`}`]}>
-          {fibonacciAnimation?.length && fibonacciAnimation.map((frame, idx) => <Circle letter={String(frame)} key={idx} index={idx} />)}
+          {fibonacciAnimation && fibonacciAnimation.length !== null && fibonacciAnimation.map((frame, idx) => <Circle letter={String(frame)} key={idx} index={idx} />)}
         </div>
       </div>
     );
     case 'arraySort': return (
       <div className={styles.interfaceOutput}>
         <div className={styles[`${`interfaceOutput_${type}`}`]}>
-          {sortingAnimation?.length && sortingAnimation.map((frame, idx) => <Column state={frame[1] as ElementStates} key={idx} index={frame[0] as number} />)}
+          {sortingAnimation && sortingAnimation.length !== null && sortingAnimation.map((frame, idx) => <Column state={frame[1] as ElementStates} key={idx} index={frame[0] as number} />)}
         </div>
       </div>
     );

@@ -36,18 +36,19 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     setLoaderState(LoaderStates.AddHead);
     let frame = listFrame(ElementStates.Default);
     frame[0].push([formState['linkedListValue'], ElementStates.Changing]);
+    await delay(DELAY_IN_MS);
     setAnimation(frame);
 
-    await delay(DELAY_IN_MS);
     list.insertAt(formState['linkedListValue'], 0);
     setFormState(prevState => ({...prevState, 'linkedListValue': ''}));
-    setAnimation(listFrame(ElementStates.Modified, 0))
-
     await delay(DELAY_IN_MS);
-    setAnimation(listFrame(ElementStates.Default));
+    setAnimation(listFrame(ElementStates.Modified, 0));
+
     setAdding(false);
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default))
   }
 
   const removeHeadButton = async () => {
@@ -58,11 +59,11 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     frame[0].push([list.print()[0] as string, ElementStates.Changing]);
     setAnimation(frame);
 
-    await delay(DELAY_IN_MS);
     list.removeAt(0);
-    setAnimation(listFrame(ElementStates.Default))
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default))
   }
 
   const addTailButton = async () => {
@@ -71,18 +72,19 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     setLoaderState(LoaderStates.AddTail);
     let frame = listFrame(ElementStates.Default);
     frame[list.getSize() - 1].push([formState['linkedListValue'], ElementStates.Changing]);
+    await delay(DELAY_IN_MS);
     setAnimation(frame);
 
-    await delay(DELAY_IN_MS);
     list.insertAt(formState['linkedListValue'], list.getSize());
     setFormState(prevState => ({...prevState, 'linkedListValue': ''}));
+    await delay(DELAY_IN_MS);
     setAnimation(listFrame(ElementStates.Modified, list.getSize() - 1))
 
-    await delay(DELAY_IN_MS);
-    setAnimation(listFrame(ElementStates.Default));
     setAdding(false);
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default));
   }
 
   const removeTailButton = async () => {
@@ -93,11 +95,11 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     frame[list.getSize() - 1][0] = '';
     setAnimation(frame);
 
-    await delay(DELAY_IN_MS);
     list.removeAt(list.getSize() - 1);
-    setAnimation(listFrame(ElementStates.Default));
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default));
   }
 
   const addByIdxButton = async () => {
@@ -118,17 +120,17 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
       setAnimation(frame);
     }
 
-    await delay(DELAY_IN_MS);
     list.insertAt(formState['linkedListValue'], idx);
     setFormState(prevState => ({...prevState, 'linkedListValue': ''}));
     let frame = listFrame(ElementStates.Modified, idx);
+    await delay(DELAY_IN_MS);
     setAnimation(frame)
 
-    await delay(DELAY_IN_MS);
-    setAnimation(listFrame(ElementStates.Default));
     setAdding(false);
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default));
   }
 
   const removeByIdxButton = async () => {
@@ -139,6 +141,7 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
       
     for (let i = 0; i <= idx; i++) {
       let frame: (string | [string, ElementStates])[][] = listFrame(ElementStates.Changing, i);
+      
       if (i > 0) {
         frame = listFrameUpdate(ElementStates.Changing, i, frame as [string, ElementStates][][]);
       }
@@ -153,14 +156,15 @@ export const ListPage: React.FC<{setActive: TSetActive, active: boolean, setForm
     frame[idx].push([frame[idx][0] as string, ElementStates.Changing]);
     frame[idx][0] = '';
     frame[idx][1] = ElementStates.Default;
+    await delay(DELAY_IN_MS);
     setAnimation(frame)
 
-    await delay(DELAY_IN_MS);
     list.removeAt(idx);
     setFormState(prevState => ({...prevState, 'linkedListValue': ''}));
-    setAnimation(listFrame(ElementStates.Default));
     setActive(false);
     setLoaderState('');
+    await delay(DELAY_IN_MS);
+    setAnimation(listFrame(ElementStates.Default));
   }
 
   useEffect(() => {

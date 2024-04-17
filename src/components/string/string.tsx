@@ -13,7 +13,6 @@ export const StringComponent: React.FC<{setActive: TSetActive, active: boolean, 
     e.preventDefault()
     setActive(true);
     const swapAnimations = reverse(formState['string']);
-    
     for (let i = 0; i < swapAnimations.length; i++) {
       await delay(DELAY_IN_MS);
       setAnimation(swapAnimations[i]);
@@ -31,7 +30,7 @@ export const StringComponent: React.FC<{setActive: TSetActive, active: boolean, 
   return (
     <SolutionLayout title="Строка">
       <InterfaceInput type='string' setActive={setActive} active={active} setFormState={setFormState} formState={formState} onSubmit={onSubmit} />
-      {reverseAnimation?.length && <InterfaceOutput type='string' reverseAnimation={reverseAnimation} />}
+      <InterfaceOutput type='string' reverseAnimation={reverseAnimation} />
     </SolutionLayout>
   );
 };
